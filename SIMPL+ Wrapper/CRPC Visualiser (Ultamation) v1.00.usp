@@ -1,0 +1,105 @@
+/*******************************************************************************
+ * Crpc Capture Visualiser SIMPL+ Module
+ * Copyright (c) 2017 Ultamation Limited
+ *
+ * Ultamation Limited
+ * E: info@ultamation.com
+ * W: www.ultamation.com
+ *
+ * Module Summary:
+ * 
+ * Author:	Oliver Hall
+ * Date:	Nov 2017 
+ * Info:	For interface details, please read the embedded help file
+ *			See #HELP_BEGIN <-> #HELP_END
+ *
+ ******************************************************************************/
+
+/*******************************************************************************
+ * COMPILER DIRECTIVES
+ ******************************************************************************/
+// ENABLE DYNAMIC
+#SYMBOL_NAME "CRPC Visualiser (Ultamation) v1.00"
+#HINT ""
+// #DEFINE_CONSTANT
+// #CATEGORY "" 
+#DEFAULT_VOLATILE
+// #PRINT_TO_TRACE
+// #DIGITAL_EXPAND 
+// #ANALOG_SERIAL_EXPAND 
+// #OUTPUT_SHIFT
+// #HELP_PDF_FILE "" 
+// #DEFAULT_NONVOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+
+#HELP_BEGIN
+Copyright:
+This module is the copyright of Ultamation Ltd and
+may not be used without the an appropriate licence
+issued by Ultamation Ltd.
+#HELP_END
+
+/*******************************************************************************
+ * INCLUDE LIBRARIES
+ ******************************************************************************/
+#USER_SIMPLSHARP_LIBRARY "CrpcVisualiser"
+
+/*******************************************************************************
+ * INPUTS & OUTPUTS
+ ******************************************************************************/
+DIGITAL_INPUT	Initialise, Write, _SKIP_;
+STRING_INPUT	Heading$[255],_SKIP_;
+STRING_INPUT	Bookmark$[255],_SKIP_;
+STRING_INPUT	CrpcFromMp$[255];
+STRING_INPUT	CrpcFromDrv$[255];
+
+/*******************************************************************************
+ * PARAMETERS
+ ******************************************************************************/
+STRING_PARAMETER	Filename[128];
+
+/*******************************************************************************
+ * GLOBAL VARIABLES
+ * Note:	Be sure to initialize all declared global variables as needed
+ *			For example, in Function Main: g_temp = 0;
+ * Conventions:
+ *			Use a "g_" prefix for all global variables
+ ******************************************************************************/
+CrpcVisualiser	g_Vis;
+STRING	g_Heading[255];
+
+/*******************************************************************************
+ * EVENT HANDLERS
+ ******************************************************************************/
+PUSH Initialise
+{
+	g_Vis.Initialise( g_Heading );
+}
+
+PUSH Write
+{
+	g_Vis.Write(Filename);
+}
+
+CHANGE Heading$
+{
+	g_Heading = Heading$;
+}
+
+CHANGE CrpcFromMp$
+{
+	TRACE( "Mp: [%s]\n", CrpcFromMp$ );
+	g_Vis.ProcessCrpcMessageFromMp( CrpcFromMp$ );
+}
+
+CHANGE CrpcFromDrv$
+{
+	TRACE( "Dr: [%s]\n", CrpcFromDrv$ );
+	g_Vis.ProcessCrpcMessageFromDrv( CrpcFromDrv$ );
+}
+
+CHANGE Bookmark$
+{
+	g_Vis.AddBookmark( Bookmark$ );
+}
