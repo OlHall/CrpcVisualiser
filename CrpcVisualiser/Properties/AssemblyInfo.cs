@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 
 [assembly: AssemblyTitle("CrpcVisualiser")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Ultamation Limited")]
 [assembly: AssemblyProduct("CrpcVisualiser")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright © Ultamation Ltd 2017")]
 [assembly: AssemblyVersion("1.0.0.*")]
 
